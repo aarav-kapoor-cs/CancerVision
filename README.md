@@ -1,29 +1,36 @@
-# CancerVision
+# OrbitVision — Onboard Satellite Cloud Filtering
 
-An educational deep-learning project for classifying skin lesion image categories using transfer learning.
+A lightweight deep-learning project exploring whether satellite images are useful enough to transmit to Earth. The intended model flags mostly cloud-obstructed imagery to help study the tradeoff between retaining useful images and reducing downlink volume.
 
-**Status: planning / initial repository setup.** No dataset has been selected, no model has been trained, and no performance results are available yet.
+**Status: planned / repository setup.** No model has been trained or benchmarked. This is a research prototype concept, not a flight-deployed system.
 
-**Educational and research use only. Not a clinical diagnostic tool.**
+## Stack
+Python · PyTorch · MobileNet · FastAPI · React
 
-## Planned stack
-Python, PyTorch, ResNet18, FastAPI, React.
+## Planned pipeline
+Satellite image → preprocessing → lightweight CNN → cloud-obstruction score → threshold decision: SEND or DISCARD.
+
+The initial scope is binary useful/cloud-obstructed classification. A classifier's probability is not a measured cloud coverage percentage. Any future coverage estimate will require suitable labels and separate validation.
 
 ## MVP roadmap
-- [ ] Select a public labeled research dataset and document its license
-- [ ] Create reproducible training, validation, and held-out test splits
-- [ ] Prevent patient or lesion overlap across splits where identifiers are available
-- [ ] Implement preprocessing and training-only augmentation
-- [ ] Fine-tune ResNet18 and address class imbalance
-- [ ] Evaluate precision, recall, macro F1, and confusion matrices
-- [ ] Analyze per-class errors and limitations
-- [ ] Save model weights and training configuration
-- [ ] Build a FastAPI prediction endpoint
-- [ ] Build a React image upload interface
-- [ ] Add reproducible setup and inference instructions
+- [ ] Choose a public satellite imagery dataset and document its license
+- [ ] Define useful/cloud-obstructed labels and decision thresholds
+- [ ] Create train, validation, and held-out test splits that limit scene or geographic leakage
+- [ ] Fine-tune a lightweight MobileNet model with PyTorch
+- [ ] Evaluate precision, recall, F1, and confusion matrices
+- [ ] Measure saved model size and CPU inference latency
+- [ ] Analyze useful images incorrectly discarded and cloudy images retained
+- [ ] Compare baseline and optimized inference, including quantization if supported
+- [ ] Add a FastAPI inference endpoint and React upload interface
+- [ ] Document reproducible training, evaluation, and benchmarking commands
 
-## Evaluation plan
-Tune using the training and validation sets; reserve the test set for final evaluation. Report the dataset version, split method, class counts, and measured results. Model probabilities should not be presented as clinical certainty.
+## Evaluation and edge constraints
+Report the dataset, split strategy, label definitions, and per-class metrics. Select the decision threshold on validation data and report final results on held-out test data.
+
+Benchmark on named hardware with input size, batch size, CPU thread count, warm-up procedure, and repeated-run median and p95 latency. Report model size and any accuracy changes after optimization. Desktop CPU measurements do not establish flight-hardware performance or power consumption.
 
 ## Results
-Pending actual training and evaluation. No accuracy or F1 claims are made at this stage.
+Pending actual experiments. No accuracy, latency, memory, or downlink savings claims are made yet.
+
+## Engineering focus
+Computer vision, transfer learning, model evaluation, edge ML constraints, and inference optimization.
